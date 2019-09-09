@@ -1,0 +1,10 @@
+.screen {
+	background-color: #222;
+}
+.node {
+	stroke : white;
+	fill : #42b993;
+}
+.line {
+	stroke: #222;
+}
