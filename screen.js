@@ -5,6 +5,20 @@
  var vue_screen = new Vue({
 	 el : '#screen',
 	 data : {
+ 		/**
+		 * 要素のタイプ定数
+		 */
+		NodeType_Message : NodeType_Message,
+		NodeType_Card : NodeType_Card,
+		NodeType_Api : NodeType_Api,
+
+		/**
+		 * カードの要素タイプ定数
+		 */
+		CardType_Text : CardType_Text,
+		CardType_Url : CardType_Url,
+		CardType_Api : CardType_Api,
+
 		scenario : new factory(),
 		offset_x : 10,
 		offset_y : 10,

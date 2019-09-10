@@ -72,17 +72,17 @@ class Card extends HangoutsNode {
 		switch( type ) {
 			case CardType_Text :
 			case 'text':
-				tmp = new CardNode( id, caption, message, type, option );
+				tmp = new CardNode( id, caption, message, CardType_Text, option );
 				break;
 
 			case CardTeyp_Url :
 			case 'url':
-				tmp = new CardNode( id, caption, message, type, option );
+				tmp = new CardNode( id, caption, message, CardType_Text, option );
 				break;
 
 			case CardType_Api :
 			case 'api':
-				tmp = new CardNode( id, caption, message, type, option );
+				tmp = new CardNode( id, caption, message, CardType_Api, option );
 				break;
 
 		}

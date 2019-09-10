@@ -35,10 +35,10 @@
 		 * 要素タイプセレクトボックスのアイテム
 		 */
 		scenario_type : [ 
-			{ index: "", caption : "選択してください" },
-			{ index: NodeType_Message, caption : 'メッセージ'},
-			{ index: NodeType_Card,	caption : 'カード'},
-			{ index: NodeType_Api,	 caption : 'API' },
+			{ index: "",				caption : "選択してください" },
+			{ index: NodeType_Message,	caption : 'メッセージ'},
+			{ index: NodeType_Card,		caption : 'カード'},
+			{ index: NodeType_Api,	 	caption : 'API' },
 		],
 
 		/**
@@ -47,8 +47,8 @@
 		card_type : [
 			{ index: "", caption : "選択してください" },
 			{ index: CardType_Text,	caption : 'メッセージ' },
-			{ index: CardType_Url,		caption : 'URL' },
-			{ index: CardType_Api,		caption : 'API' },
+			{ index: CardType_Url,	caption : 'URL' },
+			{ index: CardType_Api,	caption : 'API' },
 		],
 	 }, 
 	 methods : {
@@ -56,7 +56,7 @@
 		 * タイプ：カードのとき、カードの要素を追加
 		 * @param object event 
 		 */
-		item_add : function(event) {
+		item_add : function( event ) {
 		 	this.input.node_card.AddByType( 'text', "", "", [] );
 		},
 		/**
@@ -67,12 +67,14 @@
 
 			var tmp = this.scenario.AddByType( this.input.type );
 			tmp.name = this.input.title;
+			tmp.type = this.input.type;
 			switch( this.input.type ) {
 				case NodeType_Message :
 					tmp.text = this.input.node_message.text;
 					break;
 
 				case NodeType_Card :
+					tmp.items = this.input.node_card.items;
 					break;
 
 				case NodeType_Api  :
