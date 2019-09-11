@@ -33,6 +33,16 @@
 		 * 子供の要素
 		 */
 		this.child = null;
+
+		//x, y, width, height
+		this.x = 0;
+		this.y = 0;
+
+		this.width = 0;
+		this.height= 0;
+
+		this.offset_x = 0;
+		this.offset_y = 0;
 		return;
 	}
 

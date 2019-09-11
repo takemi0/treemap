@@ -31,6 +31,7 @@
 			node_card : new Card(),
 			node_api : new Api(),
 		},
+
 		/**
 		 * 要素タイプセレクトボックスのアイテム
 		 */
@@ -40,6 +41,14 @@
 			{ index: NodeType_Card,		caption : 'カード'},
 			{ index: NodeType_Api,	 	caption : 'API' },
 		],
+
+		/**
+		 * 表示の補足情報
+		 */
+		canvas_info : {
+			offset_x : 5,
+			offset_y : 35,
+		},
 
 		/**
 		 * カード要素タイプセレクトボックスのアイテム
@@ -68,13 +77,34 @@
 			var tmp = this.scenario.AddByType( this.input.type );
 			tmp.name = this.input.title;
 			tmp.type = this.input.type;
+
 			switch( this.input.type ) {
 				case NodeType_Message :
-					tmp.text = this.input.node_message.text;
+					tmp.x =  this.input.node_message.x; 
+					tmp.y =  this.input.node_message.y; 
+					tmp.width =  this.input.node_message.width; 
+					tmp.height =  this.input.node_message.height; 
+					//改行対応　https://oar.st40.xyz/article/311
+					//ここで改行でスプリットしてtspanタグで囲ってSVG上で改行させる
+					tmp.text = this.input.node_message.text.split("\n");
+					/*
+					tmp.text = "";
+					for( var n = 0; n < line.length; n ++ ) {
+						tmp.text += '<tspan x>' + line[n] + '</tspan>';
+					}
+					*/
+					//tmp.text = this.input.node_message.text;
 					break;
 
 				case NodeType_Card :
-					tmp.items = this.input.node_card.items;
+					tmp.x =  this.input.node_card.x; 
+					tmp.y =  this.input.node_card.y; 
+					tmp.width =  this.input.node_card.width; 
+					tmp.height =  this.input.node_card.height; 
+					tmp.items = [];
+					for( var n = 0; n < this.input.node_card.items.length; n ++ ){
+						tmp.items.push( Object.assign( {}, this.input.node_card.items[n] ) );
+					}
 					break;
 
 				case NodeType_Api  :

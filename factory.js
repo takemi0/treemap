@@ -25,6 +25,10 @@ class Message extends HangoutsNode {
 		 * 表示テキスト
 		 */
 		this.text = "";
+		this.x = 15;
+		this.y = 10;
+		this.width = 100;
+		this.height= 100;
 	}
 
 }
@@ -33,14 +37,26 @@ const CardType_Text = 1; //カードの要素タイプ：テキスト
 const CardType_Url = 2; //カードの要素タイプ：リンク
 const CardType_Api = 10; //カードの要素タイプ：API
 
-class CardNode {
+class CardNode extends Node {
 
 	constructor( id, caption, message, type, option ) {
+		super();
+
 		this.id = id;
-		this.caption = caption;
-		this.message = message;
+
+		//タイプ
 		this.type = type;
+
+		this.name = caption;
+
+		//メッセージ
+		this.message = message;
+
+		//オプション
 		this.option = option;
+
+		this.height = 20;
+		this.width = 100;
 	}
 }
 
@@ -58,7 +74,12 @@ class Card extends HangoutsNode {
 		 * カードの要素
 		 */
 		this.items = [];
-
+		
+		this.x = 15;
+		this.offset_x = 5;
+		this.offset_y = 35;
+		this.width = 100;
+		this.height= 100;
 	}
 
 	/**
@@ -72,26 +93,34 @@ class Card extends HangoutsNode {
 		switch( type ) {
 			case CardType_Text :
 			case 'text':
-				tmp = new CardNode( id, caption, message, CardType_Text, option );
+				tmp = new CardNode( id, caption + "", message + "", CardType_Text, option );
 				break;
 
 			case CardTeyp_Url :
 			case 'url':
-				tmp = new CardNode( id, caption, message, CardType_Text, option );
+				tmp = new CardNode( id, caption + "", message + "", CardType_Text, option );
 				break;
 
 			case CardType_Api :
 			case 'api':
-				tmp = new CardNode( id, caption, message, CardType_Api, option );
+				tmp = new CardNode( id, caption + "", message + "", CardType_Api, option );
 				break;
 
+		}
+
+		//表示情報の設定
+		tmp.x = this.offset_x;
+		tmp.y = this.offset_y + ( tmp.id - 1 ) * 20;
+		
+		if( this.height < ( tmp.y + tmp.height) ) {
+			this.height = ( tmp.y + tmp.height ) ;
 		}
 
 		this.items.push( tmp );
 	}
 
 	getID(){
-		return this.items.length;
+		return this.items.length + 1;
 	}
 }
 

@@ -21,14 +21,20 @@
 
 		scenario : new factory(),
 		offset_x : 10,
-		offset_y : 10,
+		offset_y : 30,
+
+		//表示エリア制御変数
 		canvas : {
+			//表示エリアの幅
 			width : 640,
+			//表示エリアの高さ
 			height: 500,
 			min_height : 500,
 			min_width : 640,
 			viewbox : "0 0 640 480",
 		},
+
+		//表示要素の格納リスト
 		items : []
 	 },
 	 methods : {
@@ -43,13 +49,25 @@
 		 },
 		 'scenario.hasNum' : function( val ) {
 			this.items = this.scenario.getAllArray();
-			 var height = val * 120 + this.offset_y;
-			 if( height > this.canvas.height ){
-				 this.canvas.height = height;
+			var hi = 0;
+			for( var n = 0; n < this.items.length; n ++ ) {
+				var tmp = this.items[n];
+				if( n == 0 ) {
+					hi = tmp.y + tmp.height;
+					continue;
+				}
+				tmp.y = hi + this.offset_y;
+				hi = tmp.y + tmp.height;
+			}
+			if( hi > this.canvas.height ){
+				 this.canvas.height = hi + this.offset_y;
 			 }
 		 }
 	 },
 	 filters : {
+		 'lh' : function(val){
+			 return val * 20 + 35;
+		 },
 		 'x_position' : function(val) {
 			 return vue_screen.offset_x;
 		 },
