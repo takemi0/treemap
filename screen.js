@@ -1,7 +1,6 @@
 /**
  * シナリオ要素の表示を制御する
  */
-
  var vue_screen = new Vue({
 	 el : '#screen',
 	 data : {
@@ -35,7 +34,10 @@
 		},
 
 		//表示要素の格納リスト
-		items : []
+		items : [],
+
+		//要素と要素をつなぐ線の描画要素リスト
+		lines : [],
 	 },
 	 methods : {
 
@@ -59,8 +61,36 @@
 				tmp.y = hi + this.offset_y;
 				hi = tmp.y + tmp.height;
 			}
+			//キャンバスの高さを調整
 			if( hi > this.canvas.height ){
 				 this.canvas.height = hi + this.offset_y;
+			 }
+
+			 //要素が2個以上の時に,線の情報を作成する
+			 if( this.items.length >= 2 ) {
+
+				 this.lines = [];
+				 var befor = new point();
+
+				 //最初の情報をスワップ
+				 befor.x = this.items[0].width / 2 + this.items[0].x ;
+				 befor.y = this.items[0].height + this.items[0].y ;
+
+				 for( var n = 1; n < this.items.length; n ++ ) {
+
+					//線を引く座標を生成する
+					this.lines.push ( new lines( [
+						Object.assign( {}, befor ),
+						new point(
+				 				this.items[n].width / 2 + this.items[n].x ,
+				 				this.items[n].y 
+						),
+					] ) );
+
+					//一つ前の情報をスワップ
+				 	befor.x = this.items[n].width / 2 + this.items[n].x ;
+				 	befor.y = this.items[n].height + this.items[n].y ;
+				 }
 			 }
 		 }
 	 },

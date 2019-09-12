@@ -87,13 +87,6 @@
 					//改行対応　https://oar.st40.xyz/article/311
 					//ここで改行でスプリットしてtspanタグで囲ってSVG上で改行させる
 					tmp.text = this.input.node_message.text.split("\n");
-					/*
-					tmp.text = "";
-					for( var n = 0; n < line.length; n ++ ) {
-						tmp.text += '<tspan x>' + line[n] + '</tspan>';
-					}
-					*/
-					//tmp.text = this.input.node_message.text;
 					break;
 
 				case NodeType_Card :
