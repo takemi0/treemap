@@ -119,6 +119,7 @@ class Card extends HangoutsNode {
 		this.offset_y = 35;
 		this.width = 100;
 		this.height= 100;
+		this.branch = false;
 	}
 
 	/**

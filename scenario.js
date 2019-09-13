@@ -25,6 +25,7 @@
 		 * 入力INPUTの値
 		 */
 		input : {
+			id : "",
 			title : "",
 			type : "",
 			node_message : new Message(),
@@ -103,10 +104,34 @@
 				case NodeType_Api  :
 					break;
 			}
+
+			//カードかつbranchがtrueの場合、小データを作成する
+			if( tmp.type == NodeType_Card ) {
+				for( var n = 0; n < tmp.items.length; n ++ )  {
+					var node = tmp.items[n];
+					if( node.branch == true ) {
+						//小データを作成する
+						node.child = [];
+						var child = new Message() ;
+						child.id = 1;
+						child.x = tmp.x + tmp.width + 20;
+						child.y = tmp.y + tmp.height + 20;
+						node.child.push( child );
+
+						//
+						vue_screen.items.push( child );
+					}
+				}
+			}
 		}
 	 },
 	 watch : {
 
+	 },
+	 filters : {
+		 branch_flat_id : function( val ) {
+			 return 'branch_flag_' + val;
+		 }
 	 },
 	 created : function() {
 
