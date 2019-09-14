@@ -18,6 +18,9 @@
 		CardType_Url : CardType_Url,
 		CardType_Api : CardType_Api,
 
+		/**
+		 * 
+		 */
 		scenario : new factory(),
 		offset_x : 10,
 		offset_y : 30,
@@ -50,6 +53,7 @@
 			 this.canvas.viewbox = "0 0 " + this.canvas.width + " " + val;
 		 },
 		 'scenario.hasNum' : function( val ) {
+
 			this.items = this.scenario.getAllArray();
 			var hi = 0;
 			for( var n = 0; n < this.items.length; n ++ ) {
@@ -66,17 +70,20 @@
 				 this.canvas.height = hi + this.offset_y;
 			 }
 
-			 //要素が2個以上の時に,線の情報を作成する
-			 if( this.items.length >= 2 ) {
+			this.lines = [];
+			//this.lines = this.scenario.getAllLines();
 
-				 this.lines = [];
-				 var befor = new point();
+			//要素が2個以上の時に,線の情報を作成する
+			///*
+			if( this.items.length >= 2 ) {
 
-				 //最初の情報をスワップ
-				 befor.x = this.items[0].width / 2 + this.items[0].x ;
-				 befor.y = this.items[0].height + this.items[0].y ;
+				var befor = new point();
 
-				 for( var n = 1; n < this.items.length; n ++ ) {
+				//最初の情報をスワップ
+				befor.x = this.items[0].width / 2 + this.items[0].x ;
+				befor.y = this.items[0].height + this.items[0].y ;
+
+				for( var n = 1; n < this.items.length; n ++ ) {
 
 					//線を引く座標を生成する
 					this.lines.push ( new lines( [
@@ -88,10 +95,11 @@
 					] ) );
 
 					//一つ前の情報をスワップ
-				 	befor.x = this.items[n].width / 2 + this.items[n].x ;
-				 	befor.y = this.items[n].height + this.items[n].y ;
-				 }
-			 }
+					befor.x = this.items[n].width / 2 + this.items[n].x ;
+					befor.y = this.items[n].height + this.items[n].y ;
+				}
+			}
+			//*/
 		 }
 	 },
 	 filters : {

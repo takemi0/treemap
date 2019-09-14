@@ -110,16 +110,19 @@
 				for( var n = 0; n < tmp.items.length; n ++ )  {
 					var node = tmp.items[n];
 					if( node.branch == true ) {
+
 						//小データを作成する
 						node.child = [];
-						var child = new Message() ;
-						child.id = 1;
-						child.x = tmp.x + tmp.width + 20;
-						child.y = tmp.y + tmp.height + 20;
-						node.child.push( child );
 
-						//
-						vue_screen.items.push( child );
+						//var cnode = this.scenario.AddByType( this.NodeType_Message );
+						var cnode = new Message();
+
+						cnode.id = 1;
+						cnode.x = tmp.x + tmp.width + 20;
+						cnode.y = tmp.y + tmp.height + 20;
+						cnode.parent = tmp;
+						node.child.push( cnode );
+
 					}
 				}
 			}

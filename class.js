@@ -34,6 +34,11 @@
 		 */
 		this.child = null;
 
+		/**
+		 * 親のハンドル
+		 */
+		this.parent = null;
+
 		//x, y, width, height
 		this.x = 0;
 		this.y = 0;
@@ -129,10 +134,12 @@
 					 this.top = tmp.next;
 					 tmp = null;
 					 break_flag = true;
+					 this.hasNum --;
 					 return ;
 				 } else {
 					 befor.next = tmp.next;
 					 tmp = null;
+					 this.hasNum --;
 					 return ;
 				 }
 			 }
@@ -172,16 +179,54 @@
 		 return null;
 	 }
 
-	 getAllArray() {
-		 var ret = [];
-		 var tmp = this.top;
-		 for( var n = 0; n < this.hasNum; n ++ ){
-			 ret.push( tmp );
-			 if( tmp.next == null ) break;
-			 tmp = tmp.next;
-		 }
-		 return ret;
-	 }
+	/**
+	 * 
+	 */
+	getAllArray()
+	{
+		//TODO:9/14 クラスの親子関係を全て１次元配列に変換して、配列を返却
+		// SVGで１次元ループ処理にて線を描画する為
+		var ret = [];
+		var tmp = this.top;
+		for( var n = 0; n < this.hasNum; n ++ ){
+			ret.push( tmp );
+			if( tmp.next == null ) break;
+			tmp = tmp.next;
+		}
+		return ret;
+	}
+
+	getAllLines()
+	{
+		//TODO:9/14 再帰的に線の情報を１次元配列として返却する
+		// SVGで１次元ループ処理にて線を描画する為
+
+		//要素が2個以上の時に,線の情報を作成する
+		if( this.items.length >= 2 ) {
+
+			var befor = new point();
+
+			//最初の情報をスワップ
+			befor.x = this.items[0].width / 2 + this.items[0].x ;
+			befor.y = this.items[0].height + this.items[0].y ;
+
+			for( var n = 1; n < this.items.length; n ++ ) {
+
+				//線を引く座標を生成する
+				this.lines.push ( new lines( [
+					Object.assign( {}, befor ),
+					new point(
+			 				this.items[n].width / 2 + this.items[n].x ,
+			 				this.items[n].y 
+					),
+				] ) );
+
+				//一つ前の情報をスワップ
+				befor.x = this.items[n].width / 2 + this.items[n].x ;
+				befor.y = this.items[n].height + this.items[n].y ;
+			}
+		}
+	}
 
 	 dump() {
 		 var tmp = this.top;

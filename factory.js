@@ -195,8 +195,8 @@ class factory extends List {
 				this.add( ret );
 				break;
 
-		   case NodeType_Card:
-		   case 'card':
+			case NodeType_Card:
+			case 'card':
 				ret = new Card();
 				this.add( ret );
 				break;
