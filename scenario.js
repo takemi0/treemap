@@ -114,12 +114,14 @@
 						//小データを作成する
 						node.child = [];
 
-						//var cnode = this.scenario.AddByType( this.NodeType_Message );
+						//カードの要素ごとに生成を分岐
 						var cnode = new Message();
 
-						cnode.id = 1;
+						cnode.id = node.id + "-1";
 						cnode.x = tmp.x + tmp.width + 20;
 						cnode.y = tmp.y + tmp.height + 20;
+						cnode.width = 100;
+						cnode.height = 100;
 						cnode.parent = tmp;
 						node.child.push( cnode );
 

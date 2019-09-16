@@ -182,50 +182,142 @@
 	/**
 	 * 
 	 */
-	getAllArray()
+	getAllArray( top = null )
 	{
 		//TODO:9/14 クラスの親子関係を全て１次元配列に変換して、配列を返却
 		// SVGで１次元ループ処理にて線を描画する為
 		var ret = [];
-		var tmp = this.top;
-		for( var n = 0; n < this.hasNum; n ++ ){
-			ret.push( tmp );
-			if( tmp.next == null ) break;
-			tmp = tmp.next;
+		var tmp = null;
+		var loop_max = 0;
+
+		if( top == null ) {
+			tmp = this.top;
+			loop_max =  this.hasNum;
+		} else {
+			loop_max = top.length;
 		}
+
+
+		for( var n = 0; n < loop_max; n ++ ){
+			if( top == null ) ret.push( tmp );
+			else {
+				tmp = top[n];
+				ret.push( tmp )
+			}
+
+			if( tmp.child != null ) {
+				var res = this.getAllArray( tmp.child );
+				for( var na = 0; na < res.length; na ++ ) ret.push( res[na] );
+			}
+
+			if( tmp.type == NodeType_Card ) {
+				for( var na = 0; na < tmp.items.length; na ++ ) {
+					var item = tmp.items[na];
+					if( item.child != null ) {
+						var res = this.getAllArray( item.child );
+						for( var nb = 0; nb < res.length; nb ++ ) ret.push( res[nb] );
+					}
+				}
+			}
+
+			if( top == null && tmp.next == null ) break;
+			if( top == null ) tmp = tmp.next;
+
+		}
+
 		return ret;
 	}
 
-	getAllLines()
+	getAllLines( top = null )
 	{
 		//TODO:9/14 再帰的に線の情報を１次元配列として返却する
 		// SVGで１次元ループ処理にて線を描画する為
 
+		var ret = [];
+		var tmp = null;
+		var loop_max = 0;
+
+		if( top == null ) {
+			tmp = this.top;
+			loop_max =  this.hasNum;
+		} else {
+			loop_max = top.length;
+		}
+		
+
 		//要素が2個以上の時に,線の情報を作成する
-		if( this.items.length >= 2 ) {
+		if( loop_max >= 2 ) {
 
 			var befor = new point();
 
+			if( top != null ){
+				tmp = top.child[0];
+			}
 			//最初の情報をスワップ
-			befor.x = this.items[0].width / 2 + this.items[0].x ;
-			befor.y = this.items[0].height + this.items[0].y ;
+			befor.x = tmp.width / 2 + tmp.x ;
+			befor.y = tmp.height + tmp.y ;
 
-			for( var n = 1; n < this.items.length; n ++ ) {
+			for( var n = 1; n < loop_max; n ++ ) {
+				if( top != null ) {
+					tmp = top[n];
+				} else {
+					tmp = tmp.next;
+				}
 
 				//線を引く座標を生成する
-				this.lines.push ( new lines( [
+				ret.push ( new lines( [
 					Object.assign( {}, befor ),
 					new point(
-			 				this.items[n].width / 2 + this.items[n].x ,
-			 				this.items[n].y 
+			 				tmp.width / 2 + tmp.x ,
+			 				tmp.y 
 					),
 				] ) );
+				
+
+				if( tmp.type == NodeType_Card ) {
+					for( var na = 0; na < tmp.items.length; na ++ ) {
+						var item = tmp.items[na];
+						if( item.child != null ) {
+							//線を引く座標を生成する
+							ret.push ( new lines( [
+								new point(
+									tmp.x + tmp.width / 2,
+									tmp.y + tmp.height
+								),
+								new point(
+ 									(tmp.items[na].child[0].width / 2 )+ tmp.items[na].child[0].x ,
+ 									tmp.items[na].child[0].y 
+								),
+							] ) );
+							var res = this.getAllLines( item.child );
+							for( var nb = 0; nb < res.length; nb ++ ) ret.push( res[nb] );
+						}
+					}
+				}
+				/*
+				if( tmp.type == NodeType_Card  ) {
+					//線を引く座標を生成する
+					ret.push ( new lines( [
+						new point(
+							tmp.x + tmp.width / 2,
+							tmp.y + tmp.height
+						),
+						new point(
+ 							tmp.child[0].width / 2 + tmp.child[0].x ,
+ 							tmp.child[0].y 
+						),
+					] ) );
+					var res = this.getAllLines( tmp.child );
+					for( var na = 0; na < res.length; na ++ ) ret.push( res[na] );
+				}
+				*/
 
 				//一つ前の情報をスワップ
-				befor.x = this.items[n].width / 2 + this.items[n].x ;
-				befor.y = this.items[n].height + this.items[n].y ;
+				befor.x = tmp.width / 2 + tmp.x ;
+				befor.y = tmp.height + tmp.y ;
 			}
 		}
+		return ret;
 	}
 
 	 dump() {

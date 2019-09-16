@@ -71,10 +71,10 @@
 			 }
 
 			this.lines = [];
-			//this.lines = this.scenario.getAllLines();
+			this.lines = this.scenario.getAllLines();
 
 			//要素が2個以上の時に,線の情報を作成する
-			///*
+			/*
 			if( this.items.length >= 2 ) {
 
 				var befor = new point();
