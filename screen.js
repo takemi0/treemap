@@ -55,51 +55,45 @@
 		 'scenario.hasNum' : function( val ) {
 
 			this.items = this.scenario.getAllArray();
+			this.scenario.updateBranch();
+
 			var hi = 0;
+			var wi = this.canvas.width;
 			for( var n = 0; n < this.items.length; n ++ ) {
 				var tmp = this.items[n];
 				if( n == 0 ) {
 					hi = tmp.y + tmp.height;
 					continue;
 				}
-				tmp.y = hi + this.offset_y;
+
+				if( tmp.branch == 1 ) {
+					tmp.y = hi + this.offset_y;
+				} else {
+					if( tmp.parent != null ) {
+						tmp.y = tmp.parent.y + tmp.height + 20;
+					}
+				}
+
 				hi = tmp.y + tmp.height;
+				if( wi < (tmp.x + tmp.width + 20) ) wi = tmp.x + tmp.width + 20;
+
+				if( tmp.branch > 1 ) {
+					tmp.x = ( tmp.width + 20 ) * tmp.branch;
+				}
 			}
+
 			//キャンバスの高さを調整
+			if( wi > this.canvas.width ){
+				this.canvas.width = wi + this.offset_x;
+			}
 			if( hi > this.canvas.height ){
-				 this.canvas.height = hi + this.offset_y;
-			 }
+				this.canvas.height = hi + this.offset_y;
+			}
 
 			this.lines = [];
 			this.lines = this.scenario.getAllLines();
 
-			//要素が2個以上の時に,線の情報を作成する
-			/*
-			if( this.items.length >= 2 ) {
 
-				var befor = new point();
-
-				//最初の情報をスワップ
-				befor.x = this.items[0].width / 2 + this.items[0].x ;
-				befor.y = this.items[0].height + this.items[0].y ;
-
-				for( var n = 1; n < this.items.length; n ++ ) {
-
-					//線を引く座標を生成する
-					this.lines.push ( new lines( [
-						Object.assign( {}, befor ),
-						new point(
-				 				this.items[n].width / 2 + this.items[n].x ,
-				 				this.items[n].y 
-						),
-					] ) );
-
-					//一つ前の情報をスワップ
-					befor.x = this.items[n].width / 2 + this.items[n].x ;
-					befor.y = this.items[n].height + this.items[n].y ;
-				}
-			}
-			//*/
 		 }
 	 },
 	 filters : {

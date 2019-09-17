@@ -114,11 +114,11 @@
 						//小データを作成する
 						node.child = [];
 
-						//カードの要素ごとに生成を分岐
+						//TODO:カードの要素ごとに生成を分岐
 						var cnode = new Message();
 
-						cnode.id = node.id + "-1";
-						cnode.x = tmp.x + tmp.width + 20;
+						cnode.id = tmp.id+"-"+node.id + "-1";
+						cnode.x = tmp.x + tmp.width + 20 ;
 						cnode.y = tmp.y + tmp.height + 20;
 						cnode.width = 100;
 						cnode.height = 100;

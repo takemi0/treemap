@@ -35,6 +35,11 @@
 		this.child = null;
 
 		/**
+		 * 枝番号
+		 */
+		this.branch = 0;
+
+		/**
 		 * 親のハンドル
 		 */
 		this.parent = null;
@@ -180,12 +185,10 @@
 	 }
 
 	/**
-	 * 
+	 * シナリオの要素を１次元配列で取得
 	 */
 	getAllArray( top = null )
 	{
-		//TODO:9/14 クラスの親子関係を全て１次元配列に変換して、配列を返却
-		// SVGで１次元ループ処理にて線を描画する為
 		var ret = [];
 		var tmp = null;
 		var loop_max = 0;
@@ -197,10 +200,10 @@
 			loop_max = top.length;
 		}
 
-
 		for( var n = 0; n < loop_max; n ++ ){
-			if( top == null ) ret.push( tmp );
-			else {
+			if( top == null ) {
+				ret.push( tmp );
+			} else {
 				tmp = top[n];
 				ret.push( tmp )
 			}
@@ -228,11 +231,12 @@
 		return ret;
 	}
 
+	/**
+	 * 先の要素を１次元配列で取得
+	 * @param {*} top 
+	 */
 	getAllLines( top = null )
 	{
-		//TODO:9/14 再帰的に線の情報を１次元配列として返却する
-		// SVGで１次元ループ処理にて線を描画する為
-
 		var ret = [];
 		var tmp = null;
 		var loop_max = 0;
@@ -243,7 +247,6 @@
 		} else {
 			loop_max = top.length;
 		}
-		
 
 		//要素が2個以上の時に,線の情報を作成する
 		if( loop_max >= 2 ) {
@@ -272,7 +275,6 @@
 			 				tmp.y 
 					),
 				] ) );
-				
 
 				if( tmp.type == NodeType_Card ) {
 					for( var na = 0; na < tmp.items.length; na ++ ) {
@@ -294,23 +296,6 @@
 						}
 					}
 				}
-				/*
-				if( tmp.type == NodeType_Card  ) {
-					//線を引く座標を生成する
-					ret.push ( new lines( [
-						new point(
-							tmp.x + tmp.width / 2,
-							tmp.y + tmp.height
-						),
-						new point(
- 							tmp.child[0].width / 2 + tmp.child[0].x ,
- 							tmp.child[0].y 
-						),
-					] ) );
-					var res = this.getAllLines( tmp.child );
-					for( var na = 0; na < res.length; na ++ ) ret.push( res[na] );
-				}
-				*/
 
 				//一つ前の情報をスワップ
 				befor.x = tmp.width / 2 + tmp.x ;
@@ -318,6 +303,54 @@
 			}
 		}
 		return ret;
+	}
+
+	/**
+	 * リスト要素に枝番号をつける
+	 */
+	updateBranch( top = null, branch = 0 )
+	{
+		var tmp = null;
+		var loop_max = 0;
+		var max_branch = branch;
+
+		if( top == null ) {
+			tmp = this.top;
+			loop_max =  this.hasNum;
+			branch = 1;
+		} else {
+			loop_max = top.length;
+		}
+
+		for( var n = 0; n < loop_max; n ++ ){
+
+			if( top == null ) {
+				tmp.branch = 1;
+			} else {
+				tmp = top[n];
+				tmp.branch = branch;
+			}
+
+			if( tmp.child != null ) {
+				max_branch ++;
+				this.updateBranch( tmp.child, max_branch );
+			}
+
+			if( tmp.type == NodeType_Card ) {
+				for( var na = 0; na < tmp.items.length; na ++ ) {
+					var item = tmp.items[na];
+					if( item.child != null ) {
+						max_branch ++;
+						this.updateBranch( item.child, max_branch );
+					}
+				}
+			}
+
+			if( top == null && tmp.next == null ) break;
+			if( top == null ) tmp = tmp.next;
+		}
+
+		return max_branch;
 	}
 
 	 dump() {
