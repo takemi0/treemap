@@ -1,7 +1,7 @@
  /**
   * キャンバス描画オブジェクトの基底クラス
   */
- class CanvasNode extends ListNode {
+ class CanvasNode extends TreeNode {
 	 /**
 	  * コンストラクタ
 	  */

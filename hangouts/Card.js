@@ -13,44 +13,41 @@ class Card extends HangoutsNode {
 	constructor() {
 		super();
 
-		/**
-		 * カードの要素
-		 */
-		this.items = new List();
-		
 		this.x = 15;
 		this.offset_x = 5;
 		this.offset_y = 35;
 		this.width = 100;
 		this.height= 100;
-		this.branch = false;
 	}
 
 	/**
 	 * カード要素の追加
-	 * @param {*} type 
+	 * @param CardType type 
+	 * @param string caption 
+	 * @param string message 
+	 * @param arrya option 
 	 */
 	AddByType( type, caption, message, option = [] ) {
 		var tmp = null;
-		var id = this.getID();
 
 		switch( type ) {
 			case CardType_Text :
 			case 'text':
-				tmp = new CardNode( id, caption + "", message + "", CardType_Text, option );
+				tmp = new CardNode( caption, message, CardType_Text, option );
 				break;
 
 			case CardTeyp_Url :
 			case 'url':
-				tmp = new CardNode( id, caption + "", message + "", CardType_Text, option );
+				tmp = new CardNode( caption, message, CardType_Text, option );
 				break;
 
 			case CardType_Api :
 			case 'api':
-				tmp = new CardNode( id, caption + "", message + "", CardType_Api, option );
+				tmp = new CardNode( caption, message, CardType_Api, option );
 				break;
-
 		}
+
+		tmp.parent = this;
 
 		//表示情報の設定
 		tmp.x = this.offset_x;
@@ -60,10 +57,7 @@ class Card extends HangoutsNode {
 			this.height = ( tmp.y + tmp.height ) ;
 		}
 
-		this.items.push( tmp );
+		this.branch.add( tmp );
 	}
 
-	getID(){
-		return this.items.length + 1;
-	}
 }

@@ -13,6 +13,8 @@ class Message extends HangoutsNode {
 		this.y = 10;
 		this.width = 100;
 		this.height= 100;
+		//分岐はないためブランチを削除
+		this.branch = null;
 	}
 
 }

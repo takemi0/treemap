@@ -1,7 +1,7 @@
 /**
  * カードの要素
  */
-class CardNode extends CanvasObject {
+class CardNode extends CanvasNode {
 
 	constructor( id, caption, message, type, option ) {
 		super( id );

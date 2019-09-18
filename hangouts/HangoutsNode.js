@@ -6,7 +6,7 @@ const NodeType_Api = 10;
 /**
  * Google hangouts 要素
  */
-class HangoutsNode extends CanvasObject {
+class HangoutsNode extends CanvasNode {
 	constructor() {
 		super();
 
