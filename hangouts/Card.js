@@ -1,4 +1,5 @@
 
+const CardType_None = 0; //カードの要素タイプ：なし
 const CardType_Text = 1; //カードの要素タイプ：テキスト
 const CardType_Url = 2; //カードの要素タイプ：リンク
 const CardType_Api = 10; //カードの要素タイプ：API
@@ -33,17 +34,17 @@ class Card extends HangoutsNode {
 		switch( type ) {
 			case CardType_Text :
 			case 'text':
-				tmp = new CardNode( caption, message, CardType_Text, option );
+				tmp = new CardMessage( caption, message, CardType_Text, option );
 				break;
 
 			case CardTeyp_Url :
 			case 'url':
-				tmp = new CardNode( caption, message, CardType_Text, option );
+				tmp = new CardURL( caption, message, CardType_Text, option );
 				break;
 
 			case CardType_Api :
 			case 'api':
-				tmp = new CardNode( caption, message, CardType_Api, option );
+				tmp = new CardApi( caption, message, CardType_Api, option );
 				break;
 		}
 
