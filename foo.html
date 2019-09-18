@@ -4,9 +4,6 @@
 		<title>JavaScriptクラス：テスト</title>
 		<link href="./scenario.css" rel="stylesheet" type="text/css" />
 		<script src="./jquery-3.3.1.min.js"></script>
-		<script src="./vue.js"></script>
-		<script src="./class.js"></script>
-		<script src="./factory.js"></script>
 	</head>
 	<body>
 		<div id="screen" style="float:left;width:70%;height:500px;overflow:scroll;position: relative;">
@@ -99,6 +96,28 @@
 			</form>
 		</div>
 	</body>
+	<script src="./vue.js"></script>
+
+	<!-- リファクタリングによって細分化されたクラスファイルのインクルード -->
+	<!-- list -->
+	<script src="./list/List.js"></script>
+	<script src="./list/ListNode.js"></script>
+
+	<!-- svg関連 -->
+	<script src="./svg/CanvasNode.js"></script>
+	<script src="./svg/Line.js"></script>
+	<script src="./svg/Point.js"></script>
+
+	<!-- hangout関連 -->
+	<script src="./hangouts/HangoutsNode.js"></script>
+	<script src="./hangouts/Api.js"></script>
+	<script src="./hangouts/Card.js"></script>
+	<script src="./hangouts/cards/CardNode.js"></script>
+	<script src="./hangouts/cards/CardMessage.js"></script>
+	<script src="./hangouts/cards/CardURL.js"></script>
+	<script src="./hangouts/Message.js"></script>
+
+	<script src="./factory.js"></script>
 	<script src="./screen.js"></script>
 	<script src="./scenario.js"></script>
 </html>
