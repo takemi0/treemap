@@ -81,20 +81,12 @@
 
 			switch( this.input.type ) {
 				case NodeType_Message :
-					tmp.x =  this.input.node_message.x; 
-					tmp.y =  this.input.node_message.y; 
-					tmp.width =  this.input.node_message.width; 
-					tmp.height =  this.input.node_message.height; 
 					//改行対応　https://oar.st40.xyz/article/311
 					//ここで改行でスプリットしてtspanタグで囲ってSVG上で改行させる
-					tmp.text = this.input.node_message.text.split("\n");
+					//tmp.text = this.input.node_message.text.split("\n");
 					break;
 
 				case NodeType_Card :
-					tmp.x =  this.input.node_card.x; 
-					tmp.y =  this.input.node_card.y; 
-					tmp.width =  this.input.node_card.width; 
-					tmp.height =  this.input.node_card.height; 
 					tmp.items = [];
 					for( var n = 0; n < this.input.node_card.items.length; n ++ ){
 						tmp.items.push( Object.assign( {}, this.input.node_card.items[n] ) );
@@ -109,6 +101,7 @@
 			if( tmp.type == NodeType_Card ) {
 				for( var n = 0; n < tmp.items.length; n ++ )  {
 					var node = tmp.items[n];
+					//分岐要素を作成
 					if( node.branch == true ) {
 
 						//小データを作成する

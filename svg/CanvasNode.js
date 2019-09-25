@@ -1,12 +1,12 @@
  /**
   * キャンバス描画オブジェクトの基底クラス
   */
- class CanvasNode extends TreeNode {
+ class CanvasNode {
 	 /**
 	  * コンストラクタ
 	  */
 	constructor( id ){
-		super( id );
+		this.id = id;
 
 		/**
 		 * 子供の要素

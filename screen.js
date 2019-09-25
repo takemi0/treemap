@@ -21,7 +21,7 @@
 		/**
 		 * 
 		 */
-		scenario : new factory(),
+		scenario : new HangoutsScenario(),
 		offset_x : 10,
 		offset_y : 30,
 
@@ -43,8 +43,11 @@
 		lines : [],
 	},
 	methods : {
+		getAllArray : function(){
+			return this.scenario.node;
+		},
 		getAllLInes : function(){
-			;
+			return [];
 		}
 	},
 	watch : {
@@ -56,45 +59,19 @@
 		},
 		'scenario.hasNum' : function( val ) {
 
-			this.items = this.scenario.getAllArray();
-			this.scenario.updateBranch();
-
-			var hi = 0;
-			var wi = this.canvas.width;
-			for( var n = 0; n < this.items.length; n ++ ) {
-				var tmp = this.items[n];
-				if( n == 0 ) {
-					hi = tmp.y + tmp.height;
-					continue;
-				}
-
-				if( tmp.branch == 1 ) {
-					tmp.y = hi + this.offset_y;
-				} else {
-					if( tmp.parent != null ) {
-						tmp.y = tmp.parent.y + tmp.height + 20;
-					}
-				}
-
-				hi = tmp.y + tmp.height;
-				if( wi < (tmp.x + tmp.width + 20) ) wi = tmp.x + tmp.width + 20;
-
-				if( tmp.branch > 1 ) {
-					tmp.x = ( tmp.width + 20 ) * tmp.branch;
-				}
-			}
+			this.items = this.getAllArray();
+			//this.scenario.updateBranch();
 
 			//キャンバスの高さを調整
-			if( wi > this.canvas.width ){
-				this.canvas.width = wi + this.offset_x;
+			if( this.scenario.width > this.canvas.width ){
+				this.canvas.width = this.scenario.width + this.offset_x;
 			}
-			if( hi > this.canvas.height ){
-				this.canvas.height = hi + this.offset_y;
+			if( this.scenario.height > this.canvas.height ){
+				this.canvas.height = this.scenario.height + this.offset_y;
 			}
 
 			this.lines = [];
-			//this.lines = this.getAllLines();
-
+			this.lines = this.getAllLines();
 
 		 }
 	 },
