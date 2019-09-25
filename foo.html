@@ -1,12 +1,10 @@
 <!doctype html>
 <html>
 	<head>
+		<meta charset="utf-8" />
 		<title>JavaScriptクラス：テスト</title>
 		<link href="./scenario.css" rel="stylesheet" type="text/css" />
 		<script src="./jquery-3.3.1.min.js"></script>
-		<script src="./vue.js"></script>
-		<script src="./class.js"></script>
-		<script src="./factory.js"></script>
 	</head>
 	<body>
 		<div id="screen" style="float:left;width:70%;height:500px;overflow:scroll;position: relative;">
@@ -15,14 +13,8 @@
 					<rect x="0" y="1" width="100%" height="100%" rx=5 style="stroke-width:1"></rect> 
 					<line x1=0 x2="100%" y1=20 y2=20></line>
 					<text x=5 y=12 font-size="12" >No.{{node.id}}:{{node.name}}</text>
-					<text x=5 y=35 font-size="12" v-if="node.type == NodeType_Message">
-						<tspan x="5" v-bind:y="index|lh" v-for="(text,index) in node.text">{{text}}</tspan>
-					</text>
-					<g v-if="node.type == NodeType_Card">
-						<g v-for="card in node.items">
-							<text v-bind:x="card.x" v-bind:y="card.y" fon-size="10" v-if="card.type == CardType_Text">{{card.message}}</text>
-						</g>
-					</g>
+					<image xlink:href="./img/icon_message.png" x=5 y=35 width="80" v-if="node.type == NodeType_Message"/>
+					<image xlink:href="./img/icon_card.png" x=5 y=35 width="80" v-if="node.type == NodeType_Card"/>
 				</svg>
 				<g style="stroke-width:1">
 					<polyline class="line" v-for="node in lines" v-bind:points="node.points" />
@@ -99,6 +91,30 @@
 			</form>
 		</div>
 	</body>
+	<script src="./vue.js"></script>
+
+	<!-- リファクタリングによって細分化されたクラスファイルのインクルード -->
+	<!-- list -->
+	<script src="./list/List.js"></script>
+	<script src="./list/ListNode.js"></script>
+	<script src="./list/Tree.js"></script>
+	<script src="./list/TreeNode.js"></script>
+
+	<!-- svg関連 -->
+	<script src="./svg/CanvasNode.js"></script>
+	<script src="./svg/Line.js"></script>
+	<script src="./svg/Point.js"></script>
+
+	<!-- hangout関連 -->
+	<script src="./hangouts/HangoutsNode.js"></script>
+	<script src="./hangouts/Api.js"></script>
+	<script src="./hangouts/Card.js"></script>
+	<script src="./hangouts/cards/CardNode.js"></script>
+	<script src="./hangouts/cards/CardMessage.js"></script>
+	<script src="./hangouts/cards/CardURL.js"></script>
+	<script src="./hangouts/Message.js"></script>
+
+	<script src="./factory.js"></script>
 	<script src="./screen.js"></script>
 	<script src="./scenario.js"></script>
 </html>
