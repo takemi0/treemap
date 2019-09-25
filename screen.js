@@ -41,18 +41,20 @@
 
 		//要素と要素をつなぐ線の描画要素リスト
 		lines : [],
-	 },
-	 methods : {
-
-	 },
-	 watch : {
-		 'canvas.width' : function( val ) {
+	},
+	methods : {
+		getAllLInes : function(){
+			;
+		}
+	},
+	watch : {
+		'canvas.width' : function( val ) {
 			 this.canvas.viewbox = "0 0 " + val + " " + this.canvas.height;
-		 },
+		},
 		 'canvas.height' : function( val ){
 			 this.canvas.viewbox = "0 0 " + this.canvas.width + " " + val;
-		 },
-		 'scenario.hasNum' : function( val ) {
+		},
+		'scenario.hasNum' : function( val ) {
 
 			this.items = this.scenario.getAllArray();
 			this.scenario.updateBranch();
@@ -91,7 +93,7 @@
 			}
 
 			this.lines = [];
-			this.lines = this.scenario.getAllLines();
+			//this.lines = this.getAllLines();
 
 
 		 }
