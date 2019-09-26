@@ -46,14 +46,6 @@ class Card extends HangoutsNode {
 				break;
 		}
 
-		//表示情報の設定
-		tmp.x = this.offset_x;
-		tmp.y = this.offset_y + ( tmp.id - 1 ) * 20;
-		
-		if( this.height < ( tmp.y + tmp.height) ) {
-			this.height = ( tmp.y + tmp.height ) ;
-		}
-
 		this.items.push( tmp );
 	}
 

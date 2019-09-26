@@ -10,8 +10,8 @@ class HangoutsScenario extends HangoutsNode{
 	 * @param {Integer} branch_num 
 	 */
 	constructor( mane, parent = null, branch_num = null ) {
-
 		super();
+
 		/**
 		 * シナリオ要素配列
 		 */
@@ -21,41 +21,49 @@ class HangoutsScenario extends HangoutsNode{
 		 * 
 		 */
 		this.__mane = mane;
+
 		/**
 		 * 親要素
 		 */
 		this.parent = parent;
+
 		/**
 		 * 要素別発番IDの発番値
 		 */
 		this.__id = 0;
+
 		/**
 		 * IDのPrefix
 		 */
 		this.__id_prefix = "";
+
 		/**
 		 * 保持要素数
 		 */
 		this.hasNum = 0;
 
-		if( parent ) {
-			this.__id_prefix = parent.id + "_";
-		}
-
-		if( branch_num == null ){
-			this.branch_num = 1;
-		}
-
+		/**
+		 * オフセット x
+		 */
 		this.__node_offset_x = 30;
+
 		this.__node_offset_y = 30;
 
-		if( branch_num == null ) {
-			this.x = 5;
-			this.y = 5;
-		} else {
+		this.branch_num = branch_num;
+
+		if( parent ) {
+			this.__id_prefix = parent.id + "_";
 			this.x = parent.x + parent.width + this.__node_offset_x;
 			this.y = parent.y + parent.height + this.__node_offset_y;
+		} else {
+			this.x = 5;
+			this.y = 5;
 		}
+
+		if( this.branch_num > 1 ){
+			this.x = this.branch_num * ( 100 + this.__node_offset_x );
+		}
+
 
 	}
 
@@ -95,6 +103,13 @@ class HangoutsScenario extends HangoutsNode{
 	}
 
 	/**
+	 * シナリオ要素を取得
+	 */
+	getAllArray (){
+		return this.node;
+	}
+
+	/**
 	 * SVG描画用の座標計算
 	 */
 	updateLoacation() {
@@ -102,17 +117,22 @@ class HangoutsScenario extends HangoutsNode{
 		var max_width = 0;
 		for( var n = 0; n < this.node.length; n ++ ) {
 			var tmp = this.node[n];
+
 			if( max_width < ( tmp.x + tmp.width ) ) {
 				max_width = tmp.x + tmp.width;
 			}
 
 			if( this.parent ) {
-				tmp.x = this.parent.x + this.parent.width + this.__node_offset_x;
+				tmp.x = this.parent.x + this.parent.width  + this.__node_offset_x;
+				tmp.y = this.parent.y + this.parent.height + this.__node_offset_y;
+				if( this.branch_num > 1 ) {
+					tmp.x = this.branch_num * ( this.parent.width + this.__node_offset_x );
+				}
 			} else {
 				tmp.x = this.x;
+				tmp.y = tmp_height;
 			}
 
-			tmp.y = tmp_height;
 			tmp_height = tmp.y + tmp.height + this.__node_offset_y;
 		}
 		this.width = max_width - this.x;

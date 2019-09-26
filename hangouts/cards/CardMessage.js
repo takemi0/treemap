@@ -1,5 +1,5 @@
 /**
- * 
+ * カードの要素：メッセージ
  */
 class CardMessage extends CardNode {
 

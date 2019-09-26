@@ -21,7 +21,8 @@
 		/**
 		 * 
 		 */
-		scenario : new HangoutsScenario(),
+		scenario : null,
+		scenario_manage : new HangoutsManage(),
 		offset_x : 10,
 		offset_y : 30,
 
@@ -44,9 +45,9 @@
 	},
 	methods : {
 		getAllArray : function(){
-			return this.scenario.node;
+			return this.scenario_manage.getAllNode();
 		},
-		getAllLInes : function(){
+		getAllLines : function(){
 			return [];
 		}
 	},
@@ -60,14 +61,22 @@
 		'scenario.hasNum' : function( val ) {
 
 			this.items = this.getAllArray();
-			//this.scenario.updateBranch();
+			var max_wi = 0;
+			var max_hi = 0;
+			for( var n = 0; n < this.items.length; n ++ ){
+				var tmp = this.items[n];
+				var wi = tmp.x + tmp.width;
+				var hi = tmp.y + tmp.height;
+				if( max_wi < wi ) max_wi = wi;
+				if( max_hi < hi ) max_hi = hi;
+			}
 
 			//キャンバスの高さを調整
-			if( this.scenario.width > this.canvas.width ){
-				this.canvas.width = this.scenario.width + this.offset_x;
+			if( max_wi > this.canvas.width ){
+				this.canvas.width = max_wi + this.offset_x;
 			}
-			if( this.scenario.height > this.canvas.height ){
-				this.canvas.height = this.scenario.height + this.offset_y;
+			if( max_hi > this.canvas.height ){
+				this.canvas.height = max_hi + this.offset_y;
 			}
 
 			this.lines = [];
@@ -90,5 +99,9 @@
 			 if( tmp == null ) return '';
 			 return tmp.id;
 		 }
+	 },
+	 created : function(){
+		 if( !this.scenario_manage )  this.scenario_manage = new HangoutsManage();
+		 this.scenario = this.scenario_manage.createBranch(null);
 	 }
  });

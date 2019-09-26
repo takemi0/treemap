@@ -3,9 +3,16 @@
  */
 
  var vue_scenario = new Vue({
-	 el : '#scenario',
-	 data : {
+	el : '#scenario',
+	data : {
+		/**
+		 * シナリオクラス
+		 */
 		scenario : null,
+		/**
+		 * 分岐管理クラス
+		 */
+		scenario_manage : null,
 
 		/**
 		 * 要素のタイプ定数
@@ -89,7 +96,15 @@
 				case NodeType_Card :
 					tmp.items = [];
 					for( var n = 0; n < this.input.node_card.items.length; n ++ ){
-						tmp.items.push( Object.assign( {}, this.input.node_card.items[n] ) );
+						var card_item = Object.assign( {}, this.input.node_card.items[n] );
+						card_item.id = tmp.id + ':' + (n + 1);
+						card_item.parent = tmp;
+						card_item.parent_id = tmp.id;
+						card_item.x = tmp.x;
+						card_item.y = tmp.y;
+						card_item.width = tmp.width;
+						card_item.height = tmp.height;
+						tmp.items.push( card_item );
 					}
 					break;
 
@@ -100,24 +115,26 @@
 			//カードかつbranchがtrueの場合、小データを作成する
 			if( tmp.type == NodeType_Card ) {
 				for( var n = 0; n < tmp.items.length; n ++ )  {
+					if( tmp.node == null ) tmp.node = [];
 					var node = tmp.items[n];
 					//分岐要素を作成
 					if( node.branch == true ) {
 
 						//小データを作成する
-						node.child = [];
+						var mana = this.scenario_manage.createBranch(node);
+						tmp.node.push( mana );
+						node.next = mana;
 
 						//TODO:カードの要素ごとに生成を分岐
-						var cnode = new Message();
-
+						var cnode = mana.AddByType( NodeType_Message );
+						/*
 						cnode.id = tmp.id+"-"+node.id + "-1";
 						cnode.x = tmp.x + tmp.width + 20 ;
 						cnode.y = tmp.y + tmp.height + 20;
 						cnode.width = 100;
 						cnode.height = 100;
 						cnode.parent = tmp;
-						node.child.push( cnode );
-
+						*/
 					}
 				}
 			}
@@ -135,6 +152,6 @@
 
 		 //スクリーンのシナリオと同期
 		 this.scenario = vue_screen.scenario;
-
+		 this.scenario_manage = vue_screen.scenario_manage;
 	 }
  });

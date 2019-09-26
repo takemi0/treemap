@@ -1,5 +1,5 @@
 /**
- * カード要素API
+ * カード要素:API
  */
 class CardApi extends CardNode {
 
@@ -17,6 +17,13 @@ class CardApi extends CardNode {
 		this.caption = caption;
 		this.url = url;
 		this.option = option
+		/**
+		 * 親のハンドル
+		 */
 		this.parent = parent;
+		/**
+		 * 親のID
+		 */
+		this.parent_id = parent.id;
 	}
 }

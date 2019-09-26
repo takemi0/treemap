@@ -20,12 +20,23 @@ class CardNode extends CanvasNode {
 		 */
 		this.type = CardType_None;
 
-		this.height = 20;
-		this.width = 100;
+		/**
+		 * 親のハンドル
+		 */
+		this.parent = null;
+		/**
+		 * 親のID
+		 */
+		this.parent_id = "";
 
 		/**
-		 * 分岐先のシナリオID
+		 * 分岐先のID
 		 */
 		this.next_index = "";
+
+		/**
+		 * 分岐先のハンドル
+		 */
+		this.next = null;
 	}
 }
