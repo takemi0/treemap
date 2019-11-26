@@ -181,6 +181,7 @@ class HangoutsScenario extends HangoutsNode{
 		for( var n = 0; n < this.node.length; n ++ ){
 			if( id == this.node[n].id ) return this.node[n];
 		}
+		//TODO:子要素のID検索を実施
 	}
 
 	/**

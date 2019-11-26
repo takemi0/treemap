@@ -138,6 +138,10 @@
 					}
 				}
 			}
+		},
+		//IDをキーにオブジェクトを取得する
+		item_get :function( id ){
+			return this.scenario_manage.getNodeForID(id);
 		}
 	 },
 	 watch : {

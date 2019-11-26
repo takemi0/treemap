@@ -9,7 +9,7 @@
 	<body>
 		<div id="screen" style="float:left;width:70%;height:500px;overflow:scroll;position: relative;">
 			<svg xmlns="http://www.w3.org/2000/svg" version="1.1" v-bind:width="canvas.width" v-bind:height="canvas.height" v-bind:viewbox="canvas.viewbox" style="border:1px dotted black;">
-				<svg v-bind:id="node.id" v-bind:x="node.x" v-bind:y="node.y" v-bind:width="node.width" v-bind:height="node.height" class="node" v-for="node in items">
+				<svg v-bind:id="node.id" v-bind:x="node.x" v-bind:y="node.y" v-bind:width="node.width" v-bind:height="node.height" class="node" v-for="node in items" v-on:click="item_click">
 					<rect x="0" y="1" width="100%" height="100%" rx=5 style="stroke-width:1"></rect> 
 					<line x1=0 x2="100%" y1=20 y2=20></line>
 					<text x=5 y=12 font-size="12" >No.{{node.id}}:{{node.name}}</text>
@@ -83,8 +83,8 @@
 				</tr>
 				<tr>
 					<td colspan="2" style="text-align:center;">
-						<button type="button" v-on:click="node_add"> << ツリーに追加</button>&nbsp;&nbsp;
-						<button type="button">取消</button>
+						<button id="btnSubmit" type="button" v-on:click="node_add"> << ツリーに追加</button>&nbsp;&nbsp;
+						<button id="btnCancel" type="button">取消</button>
 					</td>
 				</tr>
 			 </table>

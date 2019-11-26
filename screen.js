@@ -42,6 +42,12 @@
 
 		//要素と要素をつなぐ線の描画要素リスト
 		lines : [],
+
+		//アクティブオブジェクト
+		active_object : null,
+
+		//変更確認フラグ
+		edit_confirm_flag : false,
 	},
 	methods : {
 		getAllArray : function(){
@@ -49,6 +55,42 @@
 		},
 		getAllLines : function(){
 			return [];
+		},
+		//表示要素がクリックされたときに実行
+		item_click : function( event ) {
+			//変更後に別のオブジェクトをクリックした場合は、変更を破棄しますか？の確認ダイアログを表示する
+			if( this.edit_confirm_flag ) {
+				if( confirm('編集したデータを破棄しますか？') == false ) {
+					return ;
+				}
+			}
+
+			//アクティブオブジェクトを非アクティブ化
+			this.object_disactive( this.active_object );
+			//クリックオブジェクトからIDを抽出し、itemリストからクリックデータを特定
+			let id = $(event.target).attr('id');
+
+			//クリックオブジェクトをアクティブ化
+			this.object_acitve( this.active_object );
+
+			//クリックオブジェクトのデータをフォームに反映
+			this.object_setForm( this.active_object );
+
+			//ツリーに追加ボタンをデータ反映ボタンに変更し、フォーム変更内容を対象データに反映させる
+			$('#btnSubmit').html('データを更新');
+
+		},
+		//オブジェクトをアクティブ化
+		object_active : function( object ){
+
+		},
+		//オブジェクトを非アクティブ化
+		object_disactive : function ( object ) {
+
+		},
+		//オブジェクトの内容をフォームに反映
+		object_setForm : function ( object ){
+
 		}
 	},
 	watch : {
